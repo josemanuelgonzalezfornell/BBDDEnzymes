@@ -1,6 +1,6 @@
 from ast import Return
 
-def CreateConection(): #crear base de datos y tabla. *Arreglar la creación de conexión duplicada y de tabla duplicada
+def connectToBBDD(): #crear base de datos y tabla. *Arreglar la creación de conexión duplicada y de tabla duplicada
     import sqlite3
     from tkinter import messagebox
     while True:
@@ -79,3 +79,10 @@ def DeleteData(id): #Eliminar datos de una instancia
         conection.close()
         messagebox.showinfo("Éxito","La instancia se ha eliminado correctamente")
     return (confirmation)
+
+#Función para cerrar aplicación
+def CloseApp(root): #cerrar la aplicación
+    from tkinter import messagebox
+    confirmation=messagebox.askquestion("Salir", "¿Deseas salir de la aplicación?")
+    if confirmation=="yes":
+        root.destroy()
