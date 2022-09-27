@@ -1,6 +1,7 @@
 from tkinter import *
 from BBDD_Enzymes_Create_Window import *
 from Funciones_BBDD_Enzymes import *
+from BBDD_Enzymes_Search_Window import *
 
 """Window of main menu"""
 
@@ -21,7 +22,7 @@ conectinitialbutton.grid(column=0, row=0, pady=2)
 createinitialbutton=Button(mainmenu, text="Crear", width=15, command=lambda:openCreateWindow(root))
 createinitialbutton.grid(column=0, row=1, pady=2)
 
-searchinitialbutton=Button(mainmenu, text="Buscar", width=15)
+searchinitialbutton=Button(mainmenu, text="Buscar", width=15, command=lambda:openSearchWindow(root))
 searchinitialbutton.grid(column=0, row=2, pady=2)
 
 openbbddinitialbutton=Button(mainmenu, text="Abrir BBDD", width=15)
