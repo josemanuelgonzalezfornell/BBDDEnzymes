@@ -1,4 +1,4 @@
-from tkinter import font, messagebox, scrolledtext
+from tkinter import messagebox
 from Funciones_BBDD_Enzymes import *
 from tkinter import *
 import sqlite3
