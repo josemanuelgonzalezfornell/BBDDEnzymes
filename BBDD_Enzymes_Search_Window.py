@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 from Funciones_BBDD_Enzymes import *
 
 def openSearchWindow(root):
@@ -70,10 +71,6 @@ def openSearchWindow(root):
 	substratelabel.grid(row=6, column=0, sticky=W)
 	substratetext=Entry(textframe, textvariable=substrate)
 	substratetext.grid(row=6, column=1, columnspan=2)
-
-	#Cuadro donde apareceran las búsquedas
-	findbox=Label(tableframe, text="We are working on this part.")
-	findbox.pack()
 
 	#Botones Acción
 		#Botón Buscar

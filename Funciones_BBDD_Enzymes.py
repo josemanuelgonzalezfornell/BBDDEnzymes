@@ -1,6 +1,8 @@
 def connectToBBDD(): #crear base de datos y tabla. *Arreglar la creación de conexión duplicada y de tabla duplicada
 	import sqlite3
 	from tkinter import messagebox
+
+	
 	while True:
 		try:
 			conection=sqlite3.connect("BBDDEnzyme")
@@ -15,7 +17,22 @@ def connectToBBDD(): #crear base de datos y tabla. *Arreglar la creación de con
 			messagebox.showinfo("ERROR","¡La base de datos ya está creada!")
 			break
 
-def CreateData(name, microrganism, type, vector, pH, temperatureexpression, iptg, timeexpression, intraextracellular, soluble, mw, temperatureactivity, coefficient, activity, substrate, km, unitkm, kmerror, kcat, unitkcat, kcaterror, kmkcat, unitkmkcat, kmkcaterror, adjustmenttype, protocolpurification, protocolreplegament, seqdna, seqaa, comments):   #Añadir una instancia en la base de datos
+#Función para obtener el ID a realizar
+def obtainNewID():
+	import sqlite3
+	conection=sqlite3.connect("BBDDEnzyme")
+	myCursor=conection.cursor()
+	myCursor.execute("SELECT Max(seq) from sqlite_sequence")
+	data=myCursor.fetchall()
+	conection.commit()
+	myCursor.close()
+	conection.close()
+	if data[0][0]==None:
+		return "1"
+	else:
+		return str(data[0][0]+1)
+
+def CreateData(name, microrganism, type, vector, pH, temperatureexpression, iptg, timeexpression, intraextracellular, soluble, mw, temperatureactivity, coefficient, activity, substrate, km, unitkm, kmerror, kcat, unitkcat, kcaterror, kmkcat, unitkmkcat, kmkcaterror, adjustmenttype, protocolpurification, protocolreplegament, seqdna, seqaa, comments,idtext):   #Añadir una instancia en la base de datos
 	import sqlite3
 	from tkinter import messagebox
 	data=[str(name), str(microrganism), str(type), str(vector), pH, temperatureexpression, iptg, timeexpression, str(intraextracellular), str(soluble), mw, temperatureactivity, coefficient, str(activity), str(substrate), km, str(unitkm), kmerror, kcat, str(unitkcat), kcaterror, kmkcat, str(unitkmkcat), kmkcaterror, str(adjustmenttype), str(protocolpurification), str(protocolreplegament), str(seqdna), str(seqaa), str(comments)]
@@ -26,6 +43,7 @@ def CreateData(name, microrganism, type, vector, pH, temperatureexpression, iptg
 	myCursor.close()
 	conection.close()
 	messagebox.showinfo("Éxito", "Instancia creada en la tabla Enzymes")
+	idtext.config(text=obtainNewID())
 
 def ReadData(functiontype, infogiven): #Leer datos de una instancia
 	import sqlite3

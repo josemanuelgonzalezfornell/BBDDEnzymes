@@ -102,20 +102,7 @@ def openCreateWindow(root):
 				seqaatext.delete(1.0, END)
 				commentstext.delete("1.0", END)
 
-			#Función para obtener el ID a realizar
-			def obtainNewID():
-				conection=sqlite3.connect("BBDDEnzyme")
-				myCursor=conection.cursor()
-				myCursor.execute("SELECT Max(seq) from sqlite_sequence")
-				data=myCursor.fetchall()
-				conection.commit()
-				myCursor.close()
-				conection.close()
-				if data[0][0]==None:
-					return "1"
-				else:
-					return str(data[0][0]+1)
-
+			
 			#Títulos
 			unittitlecreatewindow=Label(textframe, text="Unidad", font=("bold"))
 			unittitlecreatewindow.grid(row=0, column=15)
@@ -175,7 +162,7 @@ def openCreateWindow(root):
 
 			#Etiqueta y cuadro texto Substrate
 			substrate=StringVar()
-			substratelabel=Label(textframe, text="Sustrato específico sobre el que actua")
+			substratelabel=Label(textframe, text="Sustrato específico sobre el que actúa")
 			substratelabel.grid(row=8, column=0, sticky=W)
 			substratetext=Entry(textframe, textvariable=substrate)
 			substratetext.grid(row=8, column=1)
@@ -341,7 +328,7 @@ def openCreateWindow(root):
 			commentstext.config(yscrollcommand=scrollcomments.set)
 
 			#Botón Crear instancia
-			createbutton=Button(bottomframe, text="Crear", width=15, command=lambda:CreateData(name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), temperatureexpression.get(), iptg.get(), timeexpression.get(), intraextracellular.get(), soluble.get(), mw.get(), temperatureactivity.get(), coefficient.get(), activity.get(), substrate.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), adjustmenttype.get(), protocolpurification.get(), protocolreplegament.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n")))
+			createbutton=Button(bottomframe, text="Crear", width=15, command=lambda:CreateData(name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), temperatureexpression.get(), iptg.get(), timeexpression.get(), intraextracellular.get(), soluble.get(), mw.get(), temperatureactivity.get(), coefficient.get(), activity.get(), substrate.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), adjustmenttype.get(), protocolpurification.get(), protocolreplegament.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n"), idtext))
 			createbutton.grid(row=0, column=0, padx=2)
 
 			#Botón borrar campos
@@ -360,7 +347,7 @@ def openCreateWindow(root):
 				#Action Menu
 			actionmenu=Menu(Menubar, tearoff=0)
 			Menubar.add_cascade(label="Action", menu=actionmenu)
-			actionmenu.add_command(label="Crear", command=lambda:CreateData(name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), temperatureexpression.get(), iptg.get(), timeexpression.get(), intraextracellular.get(), soluble.get(), mw.get(), temperatureactivity.get(), coefficient.get(), activity.get(), substrate.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), adjustmenttype.get(), protocolpurification.get(), protocolreplegament.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n")))
+			actionmenu.add_command(label="Crear", command=lambda:CreateData(name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), temperatureexpression.get(), iptg.get(), timeexpression.get(), intraextracellular.get(), soluble.get(), mw.get(), temperatureactivity.get(), coefficient.get(), activity.get(), substrate.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), adjustmenttype.get(), protocolpurification.get(), protocolreplegament.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n"), idtext))
 			actionmenu.add_command(label="Borrar campos", command=lambda:EraseData())
 
 			createwindow.mainloop()

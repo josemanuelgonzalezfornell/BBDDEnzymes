@@ -1,6 +1,8 @@
 from tkinter import *
 from BBDD_Enzymes_Create_Window import *
+from BBDD_Enzymes_Show_All_Window import *
 from Funciones_BBDD_Enzymes import *
+from BBDD_Enzymes_Search_Window import *
 from BBDD_Enzymes_Search_Window import *
 
 """Window of main menu"""
@@ -25,7 +27,7 @@ createinitialbutton.grid(column=0, row=1, pady=2)
 searchinitialbutton=Button(mainmenu, text="Buscar", width=15, command=lambda:openSearchWindow(root))
 searchinitialbutton.grid(column=0, row=2, pady=2)
 
-openbbddinitialbutton=Button(mainmenu, text="Abrir BBDD", width=15)
+openbbddinitialbutton=Button(mainmenu, text="Abrir BBDD", width=15, command=lambda:showAllWindow(root))
 openbbddinitialbutton.grid(column=0, row=3, pady=2)
 
 closebutton=Button(mainmenu, text="Cerrar", width=15, command=lambda:CloseApp(root))
@@ -50,6 +52,6 @@ actionmenu.add_command(label="Buscar")
 	#View Menu
 viewmenu=Menu(Menubar, tearoff=0)
 Menubar.add_cascade(label="View", menu=viewmenu)
-viewmenu.add_command(label="Ver BBDD")
+viewmenu.add_command(label="Ver BBDD", command=lambda:showAllWindow(root))
 
 mainloop()
