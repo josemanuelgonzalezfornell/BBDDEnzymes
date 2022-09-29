@@ -6,12 +6,11 @@ def showAllWindow(root):
 	while True:
 		try:
 			showallwindow=Toplevel(root)
-			root.eval(f'tk::PlaceWindow {str(showallwindow)} center') #Center the window on the screen when the program is initializated
-			showallwindow.resizable(False,False)
+			 #Center the window on the screen when the program is initializated
+			showallwindow.geometry("2900x600")
 			bbddframe=Frame(showallwindow)
 			bbddframe.pack()
-			showallwindow.geometry("2900x600")
-
+			
 			#Obtener todos los datos y almacenarlos en una lista
 			conection=sqlite3.connect("BBDDEnzyme")
 			myCursor=conection.cursor()

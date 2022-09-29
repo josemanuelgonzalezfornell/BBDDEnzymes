@@ -11,8 +11,7 @@ def openCreateWindow(root):
 	while True:
 		try:
 			createwindow=Toplevel(root)
-			root.eval(f'tk::PlaceWindow {str(createwindow)} center') #Center the window on the screen when the program is initializated
-			createwindow.resizable(False,False)
+			#Center the window on the screen when the program is initializated
 			textframe=Frame(createwindow)
 			textframe.pack()
 			bottomframe=Frame(createwindow)
