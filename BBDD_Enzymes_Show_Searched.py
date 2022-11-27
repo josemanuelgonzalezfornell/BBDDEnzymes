@@ -1,26 +1,16 @@
 from tkinter import *
 from tkinter import ttk, messagebox
 import sqlite3
-from Funciones_BBDD_Enzymes import *
 
-def showAllWindow(root):
+def showSearchedWindow(root, data):
 	while True:
 		try:
-			showallwindow=Toplevel(root)
-			 #Center the window on the screen when the program is initializated
-			showallwindow.geometry("2900x600")
-			bbddframe=Frame(showallwindow)
+			searchedwindow=Toplevel(root)
+			#Center the window on the screen when the program is initializated
+			searchedwindow.geometry("2900x600")
+			bbddframe=Frame(searchedwindow)
 			bbddframe.pack()
 			
-			#Obtener todos los datos y almacenarlos en una lista
-			conection=sqlite3.connect(str(readBBDDLocation()))
-			myCursor=conection.cursor()
-			myCursor.execute("SELECT * FROM 'ENZYMES'")
-			conection.commit()
-			data=myCursor.fetchall()
-			myCursor.close()
-			conection.close()
-
 			#Realizar tabla
 			findbox = ttk.Treeview(bbddframe, column=("id", "name", "microrganism", "type", "vector", "pH", "activity", "substrate", "adjustmenttype", "intraextracellular", "soluble", "protocolpurification", "protocolreplegament", "aa", "mw", "temperatureexpression", "temperatureactivity", "pi", "iptg", "coefficient", "timeexpression", "km", "unitkm", "kmerror", "kcat", "unitkcat", "kcaterror", "kmkcat", "unitkmkcat", "kmkcaterror", "seqdna", "seqaa", "comments"), show='headings', height=50)
 			scrollxfindbox=Scrollbar(bbddframe, orient="horizontal", command=findbox.xview)
@@ -95,20 +85,12 @@ def showAllWindow(root):
 
 			for filas in data:
 				findbox.insert('', 'end', values=(filas[0], filas[1], filas[2], filas[3], filas[4], filas[5], filas[6], filas[7], filas[8], filas[9], filas[10], filas[11], filas[12], filas[13], filas[14], filas[15], filas[16], filas[17], filas[18], filas[19], filas[20], filas[21], filas[22], filas[23], filas[24], filas[25], filas[26], filas[27], filas[28], filas[29], filas[30], filas[31], filas[32]))
+
 			findbox.pack()
 
-			"""Menubar of root"""
-			Menubar=Menu(showallwindow)
-			showallwindow.config(menu=Menubar, width=300, height=300)
-
-				#BBDD Menu
-			BBDDMenu=Menu(Menubar, tearoff=0)
-			Menubar.add_cascade(label="BBDD", menu=BBDDMenu)
-			BBDDMenu.add_command(label="Salir", command=lambda:CloseApp(root))
-
-			showallwindow.mainloop()
+			searchedwindow.mainloop()
 
 		except sqlite3.OperationalError:
-			showallwindow.destroy()
+			searchedwindow.destroy()
 			messagebox.showerror("ERROR", "Cree primero la BBDD")
 			break

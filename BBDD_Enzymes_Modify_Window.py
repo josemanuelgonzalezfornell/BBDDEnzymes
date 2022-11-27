@@ -1,23 +1,15 @@
-from tkinter import messagebox
-from Funciones_BBDD_Enzymes import *
 from tkinter import *
+from tkinter import messagebox
 import sqlite3
+from Funciones_BBDD_Enzymes import *
 
-#funciones interruptor
-datagivens=0 #nos determina que campo se ha rellenado
-
-def openCreateWindow(root):
-
+def openModifyWindow(root):
 	while True:
 		try:
-			createwindow=Toplevel(root)
-			textframe=Frame(createwindow)
-			textframe.pack()
-			bottomframe=Frame(createwindow)
-			bottomframe.pack()
 
-			#Función para borrar campos
+			#Borrar campos
 			def EraseData():
+				id.set("")
 				name.set("")
 				microrganism.set("")
 				type.set("")
@@ -34,7 +26,7 @@ def openCreateWindow(root):
 				mw.set("")
 				temperatureexpression.set("")
 				temperatureactivity.set("")
-				pi.set("")
+				puntoisoelectrico.set("")
 				iptg.set("")
 				coefficient.set("")
 				timeexpression.set("")				
@@ -51,7 +43,14 @@ def openCreateWindow(root):
 				seqaatext.delete("1.0", END)
 				commentstext.delete("1.0", END)
 
-			
+			"""Window to modify the instance"""
+			modifywindow=Toplevel(root)
+			textframe=Frame(modifywindow)
+			textframe.pack()
+			bottonframe=Frame(modifywindow)
+			bottonframe.pack()
+
+
 			#Títulos
 			unittitlecreatewindow=Label(textframe, text="Unidad", font=("bold"))
 			unittitlecreatewindow.grid(row=0, column=15)
@@ -61,10 +60,10 @@ def openCreateWindow(root):
 			errortitlecreatewindow.config(font="Verdana 12 bold")
 
 			#Etiqueta y cuadro texto ID
-			newid=str(obtainNewID())
+			id=StringVar()
 			idlabel=Label(textframe, text="ID")
 			idlabel.grid(row=1, column=0, sticky=W)
-			idtext=Label(textframe, text=newid)
+			idtext=Entry(textframe, textvariable=id)
 			idtext.grid(row=1, column=1)
 
 			#Etiqueta y cuadro texto Nombre
@@ -72,56 +71,56 @@ def openCreateWindow(root):
 			namelabel=Label(textframe, text="Nombre enzima")
 			namelabel.grid(row=2, column=0, sticky=W)
 			nametext=Entry(textframe, textvariable=name)
-			nametext.grid(row=2, column=1)
+			nametext.grid(row=2, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Microorganismo de procedencia
 			microrganism=StringVar()
 			microrganismlabel=Label(textframe, text="Microorganismo de procedencia")
 			microrganismlabel.grid(row=3, column=0, sticky=W)
 			microrganismtext=Entry(textframe, textvariable=microrganism)
-			microrganismtext.grid(row=3, column=1)
+			microrganismtext.grid(row=3, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Type
 			type=StringVar()
 			typelabel=Label(textframe, text="Tipo de enzima")
 			typelabel.grid(row=4, column=0, sticky=W)
 			typetext=Entry(textframe, textvariable=type)
-			typetext.grid(row=4, column=1)
+			typetext.grid(row=4, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Vector
 			vector=StringVar()
 			vectorlabel=Label(textframe, text="Vector")
 			vectorlabel.grid(row=5, column=0, sticky=W)
 			vectortext=Entry(textframe, textvariable=vector)
-			vectortext.grid(row=5, column=1)
+			vectortext.grid(row=5, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto pH
 			ph=StringVar()
 			phlabel=Label(textframe, text="pH óptimo de actividad")
 			phlabel.grid(row=6, column=0, sticky=W)
 			phtext=Entry(textframe, textvariable=ph)
-			phtext.grid(row=6, column=1)
+			phtext.grid(row=6, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Activity
 			activity=StringVar()
 			activitylabel=Label(textframe, text="Tipo de actividad de la enzima")
 			activitylabel.grid(row=7, column=0, sticky=W)
 			activitytext=Entry(textframe, textvariable=activity)
-			activitytext.grid(row=7, column=1)
+			activitytext.grid(row=7, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Substrate
 			substrate=StringVar()
 			substratelabel=Label(textframe, text="Sustrato específico sobre el que actúa")
 			substratelabel.grid(row=8, column=0, sticky=W)
 			substratetext=Entry(textframe, textvariable=substrate)
-			substratetext.grid(row=8, column=1)
+			substratetext.grid(row=8, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Tipo ajuste
 			adjustmenttype=StringVar()
 			adjustmenttypelabel=Label(textframe, text="Tipo de ajuste")
 			adjustmenttypelabel.grid(row=9, column=0, sticky=W)
 			adjustmenttypetext=Entry(textframe, textvariable=adjustmenttype)
-			adjustmenttypetext.grid(row=9, column=1)
+			adjustmenttypetext.grid(row=9, column=1, columnspan=2)
 			
 
 			#Etiqueta y cuadro texto Intra o extracelular
@@ -131,7 +130,7 @@ def openCreateWindow(root):
 			intraextracellularlabel=Label(textframe, text="Localización en el cultivo")
 			intraextracellularlabel.grid(row=10, column=0, sticky=W)
 			intraextracellulartext=OptionMenu(textframe, intraextracellular, *intraextracellularoptions)
-			intraextracellulartext.grid(row=10, column=1)
+			intraextracellulartext.grid(row=10, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Soluble Cuerpos
 			soluble=StringVar()
@@ -140,21 +139,21 @@ def openCreateWindow(root):
 			solublelabel=Label(textframe, text="Estado de la proteína")
 			solublelabel.grid(row=11, column=0, sticky=W)
 			solubletext=OptionMenu(textframe, soluble, *solubleoptions)
-			solubletext.grid(row=11, column=1)
+			solubletext.grid(row=11, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Protocolo purificación
 			protocolpurification=StringVar()
 			protocolpurificationlabel=Label(textframe, text="Protocolo purificación")
 			protocolpurificationlabel.grid(row=12, column=0, sticky=W)
 			protocolpurificationtext=Entry(textframe, textvariable=protocolpurification)
-			protocolpurificationtext.grid(row=12, column=1)
+			protocolpurificationtext.grid(row=12, column=1, columnspan=2)
 
 			#Etiqueta y cuadro texto Protocolo purificación
 			protocolreplegament=StringVar()
 			protocolreplegamentlabel=Label(textframe, text="Protocolo repliegue")
 			protocolreplegamentlabel.grid(row=13, column=0, sticky=W)
 			protocolreplegamenttext=Entry(textframe, textvariable=protocolreplegament)
-			protocolreplegamenttext.grid(row=13, column=1)
+			protocolreplegamenttext.grid(row=13, column=1, columnspan=2)
 
 			#Etiquetas y cuadro texto Tamaño
 			aa=StringVar()
@@ -193,13 +192,13 @@ def openCreateWindow(root):
 			temperatureactivityunitlabel.grid(row=4, column=15)
 
 			#Etiquetas y cuadro texto Punto Isoelectrico
-			pi=StringVar()
-			pilabel=Label(textframe, text="Punto isoelectrico", padx=10)
-			pilabel.grid(row=5, column=4, sticky=W)
-			pitext=Entry(textframe, textvariable=pi)
-			pitext.grid(row=5, column=5, columnspan=10)
-			piunitlabel=Label(textframe, text="pH")
-			piunitlabel.grid(row=5, column=15)
+			puntoisoelectrico=StringVar()
+			puntoisoelectricolabel=Label(textframe, text="Punto isoelectrico", padx=10)
+			puntoisoelectricolabel.grid(row=5, column=4, sticky=W)
+			puntoisoelectricotext=Entry(textframe, textvariable=puntoisoelectrico)
+			puntoisoelectricotext.grid(row=5, column=5, columnspan=10)
+			puntoisoelectricounitlabel=Label(textframe, text="pH")
+			puntoisoelectricounitlabel.grid(row=5, column=15)
 
 			#Etiquetas y cuadro texto Concentración IPTG
 			iptg=StringVar()
@@ -294,17 +293,19 @@ def openCreateWindow(root):
 			scrollcomments.grid(row=14, column=14, sticky=NSEW, rowspan=2)
 			commentstext.config(yscrollcommand=scrollcomments.set)
 
-			#Botón Crear instancia
-			createbutton=Button(bottomframe, text="Crear", width=15, command=lambda:CreateData(name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), activity.get(), substrate.get(), adjustmenttype.get(), intraextracellular.get(), soluble.get(), protocolpurification.get(), protocolreplegament.get(), aa.get(), mw.get(), temperatureexpression.get(), temperatureactivity.get(), pi.get(), iptg.get(), coefficient.get(), timeexpression.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n"), idtext))
-			createbutton.grid(row=0, column=0, padx=2)
-
-			#Botón borrar campos
-			erasecampbutton=Button(bottomframe, text="Borrar campos", width=15, command=lambda:EraseData())
-			erasecampbutton.grid(row=0, column=1, padx=2)
+			#Botones
+			searchbutton=Button(textframe, text="Buscar", width=5, command=lambda:searchId(id,name, microrganism, type, vector, ph, activity, substrate, adjustmenttype, intraextracellular, soluble, protocolpurification, protocolreplegament, aa, mw, temperatureexpression, temperatureactivity, puntoisoelectrico, iptg, coefficient, timeexpression, km, kmunit, kmerror, kcat, kcatunit, kcaterror, kmkcat, kmkcatunit, kmkcaterror, seqdnatext, seqaatext, commentstext))
+			searchbutton.grid(row=1, column=2)
+			modifybutton=Button(bottonframe,text="Modificar", width=15, command=lambda:ModifyData(id.get(), name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), activity.get(), substrate.get(), adjustmenttype.get(), intraextracellular.get(), soluble.get(), protocolpurification.get(), protocolreplegament.get(), aa.get(), mw.get(), temperatureexpression.get(), temperatureactivity.get(), puntoisoelectrico.get(), iptg.get(), coefficient.get(), timeexpression.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n")))
+			modifybutton.grid(row=0, column=0, padx=2)
+			erasedatabutton=Button(bottonframe, text="Borrar campos", width=15, command=lambda:EraseData())
+			erasedatabutton.grid(row=0, column=1, padx=2)
+			eraseinstance=Button(bottonframe, text="Borrar instancia", width=15, command=lambda:DeleteData(id, name, microrganism, type, vector, ph, activity, substrate, adjustmenttype, intraextracellular, soluble, protocolpurification, protocolreplegament, aa, mw, temperatureexpression, temperatureactivity, puntoisoelectrico, iptg, coefficient, timeexpression, km, kmunit, kmerror, kcat, kcatunit, kcaterror, kmkcat, kmkcatunit, kmkcaterror, seqdnatext, seqaatext, commentstext))
+			eraseinstance.grid(row=0, column=2, padx=2)
 
 			"""Menubar of root"""
-			Menubar=Menu(createwindow)
-			createwindow.config(menu=Menubar, width=300, height=300)
+			Menubar=Menu(modifywindow)
+			modifywindow.config(menu=Menubar, width=300, height=300)
 
 				#BBDD Menu
 			BBDDMenu=Menu(Menubar, tearoff=0)
@@ -314,13 +315,14 @@ def openCreateWindow(root):
 				#Action Menu
 			actionmenu=Menu(Menubar, tearoff=0)
 			Menubar.add_cascade(label="Action", menu=actionmenu)
-			actionmenu.add_command(label="Crear", command=lambda:CreateData(name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), activity.get(), substrate.get(), adjustmenttype.get(), intraextracellular.get(), soluble.get(), protocolpurification.get(), protocolreplegament.get(), aa.get(), mw.get(), temperatureexpression.get(), temperatureactivity.get(), pi.get(), iptg.get(), coefficient.get(), timeexpression.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n"), idtext))
+			actionmenu.add_command(label="Modificar", command=lambda:ModifyData(id.get(), name.get(), microrganism.get(), type.get(), vector.get(), ph.get(), activity.get(), substrate.get(), adjustmenttype.get(), intraextracellular.get(), soluble.get(), protocolpurification.get(), protocolreplegament.get(), aa.get(), mw.get(), temperatureexpression.get(), temperatureactivity.get(), puntoisoelectrico.get(), iptg.get(), coefficient.get(), timeexpression.get(), km.get(), kmunit.get(), kmerror.get(), kcat.get(), kcatunit.get(), kcaterror.get(), kmkcat.get(), kmkcatunit.get(), kmkcaterror.get(), seqdnatext.get(1.0, END).rstrip("\n"), seqaatext.get(1.0, END).rstrip("\n"), commentstext.get("1.0", END).rstrip("\n")))
 			actionmenu.add_command(label="Borrar campos", command=lambda:EraseData())
+			actionmenu.add_command(label="Borrar instancia", command=lambda:DeleteData(id, name, microrganism, type, vector, ph, activity, substrate, adjustmenttype, intraextracellular, soluble, protocolpurification, protocolreplegament, aa, mw, temperatureexpression, temperatureactivity, puntoisoelectrico, iptg, coefficient, timeexpression, km, kmunit, kmerror, kcat, kcatunit, kcaterror, kmkcat, kmkcatunit, kmkcaterror, seqdnatext, seqaatext, commentstext))
 
-			createwindow.mainloop()
+			modifywindow.mainloop()
 			break
 
 		except sqlite3.OperationalError:
-			createwindow.destroy()
+			modifywindow.destroy()
 			messagebox.showerror("ERROR", "Cree primero la BBDD")
 			break
