@@ -208,6 +208,7 @@ def searchInstance(id, name, microrganism, type, vector, ph, activity, substrate
     myCursor.close()
     conection.close()
     showSearchedWindow(root, output)
+    print(output, input)
 
 # Busca instancias por ID
 
