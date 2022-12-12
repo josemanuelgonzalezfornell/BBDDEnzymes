@@ -87,19 +87,23 @@ def openSearchWindow(root):
 
 			# Etiqueta y cuadro texto Type
 			type = StringVar()
+			typeoptions=[""]
 			conection = sqlite3.connect(readBBDDLocation())
 			myCursor = conection.cursor()
 			myCursor.execute("SELECT TIPO_ENZYMA FROM ENZYMES group by TIPO_ENZYMA")
-			typeoptions= myCursor.fetchall()
+			diferenttypes= myCursor.fetchall()
+			for i in diferenttypes:
+				typeoptions.append(i[0])
 			conection.commit()
 			myCursor.close()
 			conection.close()
-			typeoptions.insert(0, "")
+			print(typeoptions)
 			type.set(typeoptions[0])
 			typelabel = Label(textframe, text="Tipo de enzima")
 			typelabel.grid(row=4, column=0, sticky=W)
 			typetext = OptionMenu(textframe, type, *typeoptions)
 			typetext.grid(row=4, column=1)
+			#//TODO Arreglar que no se introduzca el dato en la búsqueda
 
 			# Etiqueta y cuadro texto Vector
 			vector = StringVar()
